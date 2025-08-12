@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가이드 허브 - 올도네이션</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e2e8f0;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #f59e0b, #facc15, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .accordion-item {
+            transition: background-color 0.2s ease;
+        }
+        .accordion-header {
+            cursor: pointer;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+        }
+        .accordion-item.active .accordion-content {
+            max-height: 500px; /* 충분한 높이 */
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .tab-button.active {
+            background-color: #f59e0b;
+            color: #000;
+        }
+        /* Modal Styles */
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-black text-slate-200">
+
+    <!-- Header -->
+    <header class="sticky top-0 w-full bg-black/70 backdrop-blur-sm z-50 border-b border-gray-900">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold gradient-text">AllDonation</a>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="creators.html" class="text-slate-300 hover:text-amber-400">크리에이터 찾기</a>
+                <a href="events.html" class="text-slate-300 hover:text-amber-400">이벤트</a>
+                <a href="guide.html" class="text-amber-400 font-bold">가이드</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-slate-300 hover:text-amber-400 transition-colors">로그인</a>
+                <a href="#" class="bg-amber-500 text-black font-bold py-2 px-4 rounded-full hover:bg-amber-400 transition-all duration-300 transform hover:scale-105">
+                    크리에이터 등록
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+
+        <section class="text-center my-12 md:my-16">
+            <h1 class="text-4xl md:text-6xl font-black mb-4 reveal">올도네이션, <span class="gradient-text">무엇이든 물어보세요</span></h1>
+            <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-10 reveal" style="transition-delay: 0.1s;">크리에이터와 팬 모두를 위한 완벽 가이드. 궁금한 점을 바로 해결해 보세요.</p>
+        </section>
+
+        <section class="max-w-4xl mx-auto">
+            <div class="flex justify-center mb-10 reveal">
+                <div class="bg-gray-900 p-2 rounded-full flex space-x-2">
+                    <button id="creator-tab-btn" class="tab-button active text-lg font-bold py-2 px-8 rounded-full transition-colors">🚀 크리에이터</button>
+                    <button id="fan-tab-btn" class="tab-button text-lg font-bold py-2 px-8 rounded-full transition-colors">❤️ 팬</button>
+                </div>
+            </div>
+
+            <!-- Creator Guide Content -->
+            <div id="creator-guide" class="space-y-4 reveal active">
+                <div class="accordion-item bg-gray-900 p-6 rounded-2xl">
+                    <div class="accordion-header flex justify-between items-center">
+                        <h3 class="text-xl font-bold">Q. 후원 링크는 어떻게 만드나요?</h3>
+                        <svg class="accordion-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="text-slate-300 leading-relaxed">1. 올도네이션에 크리에이터로 로그인합니다.<br>2. '크리에이터 센터'의 '후원 링크 관리' 메뉴로 이동합니다.<br>3. '새 링크 만들기' 버튼을 클릭하고, 원하는 링크 주소를 입력하면 즉시 생성됩니다.<br>4. 생성된 링크를 복사하여 유튜브, 트위치, SNS 등 원하는 곳에 자유롭게 사용하세요!</p>
+                        <button class="visual-guide-btn mt-6 bg-amber-500 text-black font-bold py-2 px-5 rounded-lg hover:bg-amber-400 transition-colors" data-guide-id="link-guide">이미지로 쉽게 보기 🖼️</button>
+                    </div>
+                </div>
+                <div class="accordion-item bg-gray-900 p-6 rounded-2xl">
+                    <div class="accordion-header flex justify-between items-center">
+                        <h3 class="text-xl font-bold">Q. 후원받은 포인트는 어떻게 정산되나요?</h3>
+                         <svg class="accordion-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="text-slate-300 leading-relaxed">올도네이션의 가장 큰 장점은 '실시간 즉시 정산'입니다! 팬이 후원하는 즉시, 크리에이터님이 미리 연동해 둔 '웰컴페이' 또는 '컬쳐캐쉬' 계정으로 후원금이 자동으로 충전됩니다. 별도의 정산 신청이나 기다림 없이 바로 사용하실 수 있습니다.</p>
+                        <button class="visual-guide-btn mt-6 bg-amber-500 text-black font-bold py-2 px-5 rounded-lg hover:bg-amber-400 transition-colors" data-guide-id="payout-guide">이미지로 쉽게 보기 🖼️</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fan Guide Content -->
+            <div id="fan-guide" class="hidden space-y-4 reveal">
+                <div class="accordion-item bg-gray-900 p-6 rounded-2xl">
+                    <div class="accordion-header flex justify-between items-center">
+                        <h3 class="text-xl font-bold">Q. 컬쳐캐쉬(문화상품권)로 어떻게 후원하나요?</h3>
+                        <svg class="accordion-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="text-slate-300 leading-relaxed">크리에이터의 후원 페이지에서 결제수단으로 '컬쳐캐쉬'를 선택하세요. 그 후 컬쳐랜드 아이디와 비밀번호를 입력하여 로그인하면, 보유하고 계신 컬쳐캐쉬로 간편하게 후원할 수 있습니다. 별도의 회원가입 없이 바로 이용 가능합니다.</p>
+                        <button class="visual-guide-btn mt-6 bg-amber-500 text-black font-bold py-2 px-5 rounded-lg hover:bg-amber-400 transition-colors" data-guide-id="culture-guide">이미지로 쉽게 보기 🖼️</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Visual Guide Modal -->
+    <div id="visual-guide-modal" class="modal-overlay fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 hidden opacity-0">
+        <div class="modal-container bg-gray-900 w-full max-w-2xl rounded-2xl overflow-hidden transform scale-95 opacity-0">
+            <div class="p-6 border-b border-gray-800 flex justify-between items-center">
+                <h3 id="modal-title" class="text-2xl font-bold gradient-text"></h3>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-white"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+            </div>
+            <div class="p-8 text-center">
+                <div id="modal-steps-container" class="mb-8">
+                    <!-- Steps will be injected here -->
+                </div>
+                <div class="flex items-center justify-center space-x-8">
+                    <button id="prev-btn" class="bg-gray-700 text-white font-bold py-2 px-5 rounded-lg hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed">이전</button>
+                    <span id="step-indicator" class="text-lg font-bold"></span>
+                    <button id="next-btn" class="bg-amber-500 text-black font-bold py-2 px-5 rounded-lg hover:bg-amber-400">다음</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Data for Visual Guides ---
+            const visualGuides = {
+                'link-guide': {
+                    title: '후원 링크 만들기',
+                    steps: [
+                        { img: 'https://placehold.co/600x350/1e293b/ffffff?text=STEP+1', text: '크리에이터 센터에서 \'후원 링크 관리\'를 클릭하세요.' },
+                        { img: 'https://placehold.co/600x350/1e293b/ffffff?text=STEP+2', text: '\'새 링크 만들기\'를 누르고 원하는 주소를 입력하세요.' },
+                        { img: 'https://placehold.co/600x350/1e293b/ffffff?text=STEP+3', text: '생성된 링크를 복사하여 방송이나 SNS에 공유하면 끝!' }
+                    ]
+                },
+                'payout-guide': {
+                    title: '후원금 정산받기',
+                    steps: [
+                        { img: 'https://placehold.co/600x350/334155/ffffff?text=STEP+1', text: '\'크리에이터 센터\'의 \'정산 관리\'로 이동합니다.' },
+                        { img: 'https://placehold.co/600x350/334155/ffffff?text=STEP+2', text: '웰컴페이 또는 컬쳐캐쉬 계정을 연동합니다.' },
+                        { img: 'https://placehold.co/600x350/334155/ffffff?text=STEP+3', text: '팬이 후원하면 연동된 계정으로 즉시 충전됩니다!' }
+                    ]
+                },
+                'culture-guide': {
+                    title: '컬쳐캐쉬로 후원하기',
+                    steps: [
+                        { img: 'https://placehold.co/600x350/047857/ffffff?text=STEP+1', text: '후원 페이지에서 \'컬쳐캐쉬\'를 선택합니다.' },
+                        { img: 'https://placehold.co/600x350/047857/ffffff?text=STEP+2', text: '컬쳐랜드 아이디와 비밀번호로 로그인합니다.' },
+                        { img: 'https://placehold.co/600x350/047857/ffffff?text=STEP+3', text: '보유한 캐쉬로 간편하게 후원을 완료합니다.' }
+                    ]
+                }
+            };
+
+            // --- Elements ---
+            const modal = document.getElementById('visual-guide-modal');
+            const modalContainer = modal.querySelector('.modal-container');
+            const modalTitle = document.getElementById('modal-title');
+            const stepsContainer = document.getElementById('modal-steps-container');
+            const stepIndicator = document.getElementById('step-indicator');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            
+            let currentGuideId = null;
+            let currentStep = 0;
+
+            // --- Functions ---
+            const openModal = (guideId) => {
+                currentGuideId = guideId;
+                const guideData = visualGuides[guideId];
+                if (!guideData) return;
+
+                modalTitle.textContent = guideData.title;
+                stepsContainer.innerHTML = '';
+                guideData.steps.forEach((step, index) => {
+                    const stepEl = document.createElement('div');
+                    stepEl.className = 'modal-step';
+                    stepEl.dataset.step = index;
+                    stepEl.innerHTML = `<img src="${step.img}" alt="가이드 이미지 ${index + 1}" class="w-full h-auto rounded-lg mb-4"><p class="text-lg">${step.text}</p>`;
+                    stepsContainer.appendChild(stepEl);
+                });
+                
+                currentStep = 0;
+                updateModalStep();
+
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalContainer.classList.remove('scale-95', 'opacity-0');
+                }, 10);
+            };
+
+            const closeModal = () => {
+                modalContainer.classList.add('scale-95', 'opacity-0');
+                modal.classList.add('opacity-0');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            };
+
+            const updateModalStep = () => {
+                const guideData = visualGuides[currentGuideId];
+                const steps = stepsContainer.querySelectorAll('.modal-step');
+                steps.forEach((step, index) => {
+                    step.classList.toggle('hidden', index !== currentStep);
+                });
+                stepIndicator.textContent = `${currentStep + 1} / ${guideData.steps.length}`;
+                prevBtn.disabled = currentStep === 0;
+                nextBtn.textContent = (currentStep === guideData.steps.length - 1) ? '닫기' : '다음';
+            };
+
+            // --- Event Listeners ---
+            document.querySelectorAll('.visual-guide-btn').forEach(btn => {
+                btn.addEventListener('click', () => openModal(btn.dataset.guideId));
+            });
+
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateModalStep();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                const guideData = visualGuides[currentGuideId];
+                if (currentStep < guideData.steps.length - 1) {
+                    currentStep++;
+                    updateModalStep();
+                } else {
+                    closeModal();
+                }
+            });
+
+            // --- Initial Setup (Tabs, Accordion, Reveal) ---
+            const creatorTabBtn = document.getElementById('creator-tab-btn');
+            const fanTabBtn = document.getElementById('fan-tab-btn');
+            const creatorGuide = document.getElementById('creator-guide');
+            const fanGuide = document.getElementById('fan-guide');
+
+            creatorTabBtn.addEventListener('click', () => {
+                creatorTabBtn.classList.add('active');
+                fanTabBtn.classList.remove('active');
+                creatorGuide.classList.remove('hidden');
+                fanGuide.classList.add('hidden');
+            });
+
+            fanTabBtn.addEventListener('click', () => {
+                fanTabBtn.classList.add('active');
+                creatorTabBtn.classList.remove('active');
+                fanGuide.classList.remove('hidden');
+                creatorGuide.classList.add('hidden');
+            });
+
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                header.addEventListener('click', () => {
+                    const currentlyActive = document.querySelector('.accordion-item.active');
+                    if (currentlyActive && currentlyActive !== item) {
+                        currentlyActive.classList.remove('active');
+                    }
+                    item.classList.toggle('active');
+                });
+            });
+
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                revealElements.forEach(el => {
+                    if (el.getBoundingClientRect().top < windowHeight - 50) {
+                        el.classList.add('active');
+                    }
+                });
+            };
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+        });
+    </script>
+</body>
+</html>

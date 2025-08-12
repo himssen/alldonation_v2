@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이벤트 허브 - 올도네이션</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e2e8f0;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #f59e0b, #facc15, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .event-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .event-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px -10px rgba(245, 158, 11, 0.2);
+        }
+        .roulette-section {
+            background: radial-gradient(circle, rgba(245,158,11,0.1) 0%, rgba(10,10,10,0) 70%);
+        }
+        .payment-logo {
+            height: 24px;
+            filter: grayscale(100%) brightness(1.2);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        .event-card:hover .payment-logo {
+            filter: grayscale(0%) brightness(1);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-black text-slate-200">
+
+    <!-- Header -->
+    <header class="sticky top-0 w-full bg-black/70 backdrop-blur-sm z-50 border-b border-gray-900">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold gradient-text">AllDonation</a>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="creators.html" class="text-slate-300 hover:text-amber-400">크리에이터 찾기</a>
+                <a href="events.html" class="text-amber-400 font-bold">이벤트</a>
+                <a href="#" class="text-slate-300 hover:text-amber-400">가이드</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-slate-300 hover:text-amber-400 transition-colors">로그인</a>
+                <a href="#" class="bg-amber-500 text-black font-bold py-2 px-4 rounded-full hover:bg-amber-400 transition-all duration-300 transform hover:scale-105">
+                    크리에이터 등록
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Main Roulette Event Section -->
+        <section class="roulette-section text-center my-12 md:my-16 p-8 md:p-12 rounded-3xl overflow-hidden">
+            <div class="relative z-10">
+                <h1 class="text-4xl md:text-6xl font-black mb-4 reveal">
+                    후원하고, <span class="gradient-text">행운을 돌려라!</span>
+                </h1>
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-10 reveal" style="transition-delay: 0.1s;">
+                    1,000원 이상 후원 시마다 룰렛 이용권을 드립니다. 매일 터지는 10만원 컬쳐캐쉬의 행운을 잡으세요!
+                </p>
+                <div class="max-w-xl mx-auto mb-10 reveal" style="transition-delay: 0.2s;">
+                    <img src="https://placehold.co/500x500/0a0a0a/f59e0b?text=LUCKY+ROULETTE" alt="Lucky Roulette" class="w-full max-w-sm mx-auto animate-pulse" style="animation-duration: 5s;">
+                </div>
+                <div class="reveal" style="transition-delay: 0.3s;">
+                    <a href="#" class="bg-amber-500 text-black text-xl font-bold py-4 px-10 rounded-full hover:bg-amber-400 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-amber-500/20">
+                        후원하고 룰렛 참여하기
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ongoing Events Section -->
+        <section class="my-20">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center reveal">진행중인 이벤트</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Event Card 1: First Donation -->
+                <div class="event-card bg-gray-900 rounded-2xl overflow-hidden reveal">
+                    <img src="https://placehold.co/600x400/047857/FFFFFF?text=First+Donation" alt="First Donation Event" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-sm font-bold text-green-400">For Fans</span>
+                        <h3 class="text-2xl font-bold my-2">결제수단별 첫 후원 이벤트</h3>
+                        <p class="text-slate-400 mb-4">아래 결제수단으로 첫 후원 시, 1,000 포인트를 즉시 지급해 드립니다!</p>
+                        <div class="flex items-center justify-around my-4">
+                            <img src="https://placehold.co/100x30/FFFFFF/000000?text=CultureCash" alt="Culture Cash" class="payment-logo">
+                            <img src="https://placehold.co/100x30/FFFFFF/000000?text=TeenCash" alt="Teen Cash" class="payment-logo">
+                            <img src="https://placehold.co/100x30/FFFFFF/000000?text=T-money" alt="T-money" class="payment-logo">
+                        </div>
+                        <button class="w-full bg-gray-700 text-white font-bold py-2 rounded-lg hover:bg-gray-600">자세히 보기</button>
+                    </div>
+                </div>
+                <!-- Event Card 2: Welcome Pay Fee Discount -->
+                <div class="event-card bg-gray-900 rounded-2xl overflow-hidden reveal" style="transition-delay: 0.1s;">
+                    <img src="https://placehold.co/600x400/4C1D95/FFFFFF?text=WelcomePay" alt="Welcome Pay Event" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-sm font-bold text-purple-400">For Everyone</span>
+                        <h3 class="text-2xl font-bold my-2">웰컴페이 수수료 0%</h3>
+                        <p class="text-slate-400 mb-4">이벤트 기간 동안 웰컴페이로 후원하면 크리에이터에게 수수료 없이 100% 전달됩니다.</p>
+                         <div class="flex items-center justify-center my-4">
+                            <img src="https://placehold.co/150x40/FFFFFF/000000?text=WelcomePay" alt="Welcome Pay" class="payment-logo" style="height:32px;">
+                        </div>
+                        <button class="w-full bg-gray-700 text-white font-bold py-2 rounded-lg hover:bg-gray-600">자세히 보기</button>
+                    </div>
+                </div>
+                <!-- Event Card 3: Comment Event -->
+                <div class="event-card bg-gray-900 rounded-2xl overflow-hidden reveal" style="transition-delay: 0.2s;">
+                    <img src="https://placehold.co/600x400/BE123C/FFFFFF?text=Comment+Event" alt="Comment Event" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-sm font-bold text-rose-400">For Fans</span>
+                        <h3 class="text-2xl font-bold my-2">응원 댓글 이벤트</h3>
+                        <p class="text-slate-400 mb-4">크리에이터에게 따뜻한 응원 댓글을 남겨주시면 추첨을 통해 1,000 포인트를 드려요.</p>
+                        <div class="flex items-center justify-center my-4 h-[32px]">
+                            <p class="text-2xl">💬 ❤️</p>
+                        </div>
+                        <button class="w-full bg-gray-700 text-white font-bold py-2 rounded-lg hover:bg-gray-600">자세히 보기</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 스크롤 애니메이션
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                revealElements.forEach(el => {
+                    const elementTop = el.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - 50) {
+                        el.classList.add('active');
+                    }
+                });
+            };
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+        });
+    </script>
+
+</body>
+</html>

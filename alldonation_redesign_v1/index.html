@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>올도네이션 - 후원의 새로운 기준</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+    <style>
+        /* Noto Sans KR과 Inter 폰트를 TailwindCSS에 적용 */
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: #0a0a0a; /* 기본 배경색을 어둡게 설정 */
+            color: #e2e8f0; /* 기본 텍스트 색상 */
+            overflow-x: hidden;
+        }
+
+        /* 빛나는 효과를 위한 키프레임 */
+        @keyframes glowing {
+            0% { box-shadow: 0 0 5px #f59e0b, 0 0 10px #f59e0b, 0 0 15px #f59e0b; }
+            50% { box-shadow: 0 0 20px #f59e0b, 0 0 30px #f59e0b, 0 0 40px #f59e0b; }
+            100% { box-shadow: 0 0 5px #f59e0b, 0 0 10px #f59e0b, 0 0 15px #f59e0b; }
+        }
+        .glowing-button {
+            animation: glowing 3s infinite;
+        }
+
+        /* 스크롤 애니메이션을 위한 기본 스타일 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 배경에 떠다니는 파티클 효과 */
+        .particle {
+            position: absolute;
+            background: #f59e0b;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 20s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-100vh) translateX(50vw); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+        
+        /* 그라데이션 텍스트 */
+        .gradient-text {
+            background: linear-gradient(90deg, #f59e0b, #facc15, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        
+        /* 카드 호버 효과 */
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.2), 0 10px 10px -5px rgba(245, 158, 11, 0.1);
+        }
+
+        .payment-logo {
+            filter: grayscale(100%) brightness(1.5);
+            transition: all 0.3s ease;
+        }
+        .payment-logo:hover {
+            filter: grayscale(0%) brightness(1);
+        }
+    </style>
+</head>
+<body class="bg-black text-slate-200">
+
+    <!-- 파티클 배경 -->
+    <div id="particle-container" class="fixed top-0 left-0 w-full h-full -z-10"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full bg-black/50 backdrop-blur-sm z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold gradient-text">AllDonation</h1>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-slate-300 hover:text-amber-400 transition-colors">로그인</a>
+                <a href="#" class="bg-amber-500 text-black font-bold py-2 px-4 rounded-full hover:bg-amber-400 transition-all duration-300 transform hover:scale-105">
+                    바로 시작하기
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="min-h-screen flex items-center justify-center text-center relative pt-20">
+            <div class="absolute inset-0 bg-black/30"></div>
+            <div class="container mx-auto px-6 z-10">
+                <h2 class="text-5xl md:text-7xl font-black mb-4 leading-tight reveal">
+                    부가세 0원, 정산 1초.<br>
+                    <span class="gradient-text">후원의 새로운 기준.</span>
+                </h2>
+                <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-8 reveal" style="transition-delay: 0.2s;">
+                    팬이 부담하는 부가세 부담도, 크리에이터가 기다려야하는 정산기간도 없습니다.<br>
+                    가장 똑똑하고 빠른 후원 방식을 경험하세요.
+                </p>
+                <div class="flex justify-center space-x-4 reveal" style="transition-delay: 0.4s;">
+                    <a href="#" class="bg-amber-500 text-black text-lg font-bold py-3 px-8 rounded-full hover:bg-amber-400 transition-all duration-300 transform hover:scale-105 glowing-button">
+                        크리에이터 시작하기
+                    </a>
+                    <a href="#experience" class="bg-gray-800 text-white text-lg font-bold py-3 px-8 rounded-full hover:bg-gray-700 transition-all duration-300 transform hover:scale-105">
+                        후원 경험하기
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Supported Payments Section -->
+        <section class="py-20 sm:py-32 bg-black">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h3 class="text-4xl md:text-5xl font-bold mb-4 reveal">당신의 지갑 속 모든 것이<br><span class="gradient-text">창작의 불꽃</span>이 됩니다</h3>
+                    <p class="text-slate-400 text-lg reveal" style="transition-delay: 0.2s;">다양한 선불카드로 크리에이터의 세상을 응원하세요.</p>
+                </div>
+                <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-6 max-w-4xl mx-auto reveal">
+                    <span class="text-2xl font-bold text-slate-300 payment-logo">컬쳐캐쉬</span>
+                    <span class="text-2xl font-bold text-slate-300 payment-logo">웰컴페이</span>
+                    <span class="text-2xl font-bold text-slate-300 payment-logo">틴캐시</span>
+                    <span class="text-2xl font-bold text-slate-300 payment-logo">티머니</span>
+                    <span class="text-2xl font-bold text-slate-300 payment-logo">캐시비</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section -->
+        <section id="experience" class="py-20 sm:py-32">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h3 class="text-4xl md:text-5xl font-bold mb-4 reveal">후원의 불필요한 모든 것을<br><span class="gradient-text">없앴습니다</span></h3>
+                    <p class="text-slate-400 text-lg reveal" style="transition-delay: 0.2s;">오직 순수한 응원과 창작의 즐거움만 남깁니다.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <!-- Step 1 -->
+                    <div class="reveal">
+                        <div class="p-8 bg-gray-900/50 rounded-2xl h-full">
+                            <div class="text-5xl mb-4">💸</div>
+                            <h4 class="text-2xl font-bold mb-2">부가세 없는 후원</h4>
+                            <p class="text-slate-400">팬은 추가 비용 걱정 없이<br>보내고 싶은 금액만 그대로</p>
+                        </div>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="reveal" style="transition-delay: 0.3s;">
+                        <div class="p-8 bg-gray-900/50 rounded-2xl h-full">
+                            <div class="text-5xl mb-4">⚡️</div>
+                            <h4 class="text-2xl font-bold mb-2">기다림 없는 사용</h4>
+                            <p class="text-slate-400">크리에이터는 후원 즉시<br>연동된 계정으로 바로 사용</p>
+                        </div>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="reveal" style="transition-delay: 0.6s;">
+                        <div class="p-8 bg-gray-900/50 rounded-2xl h-full">
+                            <div class="text-5xl mb-4">💖</div>
+                            <h4 class="text-2xl font-bold mb-2">100% 가치 전달</h4>
+                            <p class="text-slate-400">중간 과정의 손실 없이<br>마음의 가치가 온전히 전달</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Proof (Live Feed) -->
+        <section class="py-20 sm:py-32">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-16">
+                    <h3 class="text-4xl md:text-5xl font-bold mb-4 reveal">지금, <span class="gradient-text">세상이 만들어지는 순간</span></h3>
+                    <p class="text-slate-400 text-lg reveal" style="transition-delay: 0.2s;">실시간으로 크리에이터들의 세계가 확장되고 있습니다.</p>
+                </div>
+                <div id="live-feed" class="space-y-4 max-w-2xl mx-auto">
+                    <!-- Live feed items will be injected here by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section class="py-20 sm:py-32 text-center">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl md:text-6xl font-black mb-6 leading-tight reveal">이제, 당신의 세상을<br>만들 차례입니다.</h2>
+                <div class="flex justify-center space-x-4 reveal" style="transition-delay: 0.2s;">
+                    <a href="#" class="bg-amber-500 text-black text-lg font-bold py-3 px-8 rounded-full hover:bg-amber-400 transition-all duration-300 transform hover:scale-105 glowing-button">
+                        내 세상 만들러 가기
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-gray-900">
+        <div class="container mx-auto px-6 py-8 text-center text-slate-500">
+            <p>&copy; 2024 AllDonation. All rights reserved.</p>
+            <div class="mt-4 space-x-6">
+                <a href="#" class="hover:text-amber-400">이용약관</a>
+                <a href="#" class="hover:text-amber-400">개인정보처리방침</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 스크롤 애니메이션
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // 초기 로드 시에도 체크
+
+        // 파티클 생성
+        const particleContainer = document.getElementById('particle-container');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 5 + 1;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.top = `${Math.random() * 100}vh`;
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            particleContainer.appendChild(particle);
+        }
+
+        // 실시간 피드 모의 데이터
+        const liveFeedContainer = document.getElementById('live-feed');
+        const creators = ['웹툰작가 리코', '스트리머 겜돌이', '버튜버 아리아', '소설가 윤슬', 'DJ MixMaster'];
+        const actions = [
+            '님에게 <span class="font-bold text-sky-400">컬쳐캐쉬 5,000원</span>을 선물했어요!', 
+            '님에게 <span class="font-bold text-teal-400">틴캐시 10,000원</span>으로 응원했어요!', 
+            '님에게 <span class="font-bold text-lime-400">웰컴페이 3,000P</span>를 충전했어요!', 
+            '님에게 <span class="font-bold text-rose-400">티머니 5,000원</span>으로 마음을 전했어요!'
+        ];
+        
+        let feedCounter = 0;
+        function addFeedItem() {
+            if(feedCounter >= 5) {
+                // 5개 이상이면 가장 오래된 것부터 지우고 새로 추가
+                if (liveFeedContainer.children.length > 4) {
+                    liveFeedContainer.lastChild.remove();
+                }
+            } else {
+                feedCounter++;
+            }
+
+            const creator = creators[Math.floor(Math.random() * creators.length)];
+            const action = actions[Math.floor(Math.random() * actions.length)];
+            
+            const feedItem = document.createElement('div');
+            feedItem.className = 'bg-gray-900/80 p-4 rounded-xl text-center reveal';
+            feedItem.innerHTML = `<p><span class="font-bold text-amber-400">${creator}</span> ${action}</p>`;
+            
+            liveFeedContainer.prepend(feedItem);
+            
+            // 새로 추가된 요소에 애니메이션 적용
+            setTimeout(() => {
+                feedItem.classList.add('active');
+            }, 100);
+        }
+        
+        setInterval(addFeedItem, 3000);
+        addFeedItem(); // 초기 1개
+    </script>
+</body>
+</html>

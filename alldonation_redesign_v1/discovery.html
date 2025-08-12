@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>크리에이터 디스커버리 - 올도네이션</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e2e8f0;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #f59e0b, #facc15, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .creator-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .creator-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px -5px rgba(245, 158, 11, 0.15);
+        }
+        .category-tag {
+            transition: all 0.2s ease;
+        }
+        .category-tag.active, .category-tag:hover {
+            background-color: #f59e0b;
+            color: #000;
+            transform: scale(1.05);
+        }
+        .live-dot { animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        
+        .live-feed-item { animation: slideIn 0.5s ease-out forwards; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        
+        .modal-overlay { transition: opacity 0.3s ease; }
+        .modal-container { transition: transform 0.3s ease, opacity 0.3s ease; }
+    </style>
+</head>
+<body class="bg-black text-slate-200">
+
+    <!-- Header -->
+    <header class="sticky top-0 w-full bg-black/70 backdrop-blur-sm z-50 border-b border-gray-900">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold gradient-text">AllDonation</a>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="creators.html" class="text-amber-400 font-bold">크리에이터 찾기</a>
+                <a href="#" class="text-slate-300 hover:text-amber-400">이벤트</a>
+                <a href="#" class="text-slate-300 hover:text-amber-400">가이드</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-slate-300 hover:text-amber-400 transition-colors">로그인</a>
+                <a href="#" class="bg-amber-500 text-black font-bold py-2 px-4 rounded-full hover:bg-amber-400 transition-all duration-300 transform hover:scale-105">
+                    크리에이터 등록
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Hero & Search Section -->
+        <section class="text-center my-12 md:my-16">
+            <h1 class="text-4xl md:text-6xl font-black mb-4 reveal">당신이 몰랐던 <span class="gradient-text">보석</span>을<br>발견할 시간</h1>
+            <p class="text-lg text-slate-400 mb-8 reveal" style="transition-delay: 0.1s;">관심사 태그나 크리에이터 이름으로 새로운 세상을 탐험하세요.</p>
+            <div class="max-w-2xl mx-auto reveal" style="transition-delay: 0.2s;">
+                <div class="relative">
+                    <input type="search" placeholder="#버튜버, #웹소설, #겜돌이 ..." class="w-full bg-gray-900 border border-gray-700 rounded-full py-4 pl-6 pr-16 text-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    <button class="absolute top-1/2 right-4 -translate-y-1/2 bg-amber-500 text-black p-2 rounded-full hover:bg-amber-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <div class="flex flex-col lg:flex-row gap-12">
+            <!-- Creators Grid -->
+            <div class="w-full lg:w-3/4">
+
+                <!-- Category Filter -->
+                <section class="mb-10 reveal">
+                    <div id="category-filter" class="flex flex-wrap gap-3 justify-center">
+                        <button class="category-tag active bg-gray-800 text-sm font-semibold px-4 py-2 rounded-full" data-filter="all">전체</button>
+                        <button class="category-tag bg-gray-800 text-sm font-semibold px-4 py-2 rounded-full" data-filter="game">🎮 게임</button>
+                        <button class="category-tag bg-gray-800 text-sm font-semibold px-4 py-2 rounded-full" data-filter="music">🎵 음악</button>
+                        <button class="category-tag bg-gray-800 text-sm font-semibold px-4 py-2 rounded-full" data-filter="vtuber">🤖 버튜버</button>
+                        <button class="category-tag bg-gray-800 text-sm font-semibold px-4 py-2 rounded-full" data-filter="novel">📚 웹소설/웹툰</button>
+                        <button class="category-tag bg-gray-800 text-sm font-semibold px-4 py-2 rounded-full" data-filter="talk">💬 토크/소통</button>
+                    </div>
+                </section>
+                
+                <!-- Curated Section: Cultureland's Pick -->
+                <section class="mb-16">
+                    <h2 class="text-3xl font-bold mb-6 reveal flex items-center">
+                        <img src="https://placehold.co/40x40/F59E0B/000000?text=C" class="rounded-full mr-3" alt="Cultureland Logo">
+                        컬쳐랜드가 추천하는 <span class="gradient-text ml-2">이 달의 크리에이터</span>
+                    </h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Creator Card with Highlight 1 -->
+                        <div class="creator-card bg-gray-900 rounded-2xl overflow-hidden reveal" data-category="game talk">
+                             <div class="relative group">
+                                <img src="https://placehold.co/600x400/1E293B/FFFFFF?text=게임+방송+화면" alt="Creator Thumbnail" class="w-full h-40 object-cover">
+                                <div class="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button class="ai-highlight-btn text-white font-bold py-2 px-4 rounded-full border-2 border-amber-400 bg-amber-500/20 backdrop-blur-sm hover:bg-amber-500/40" data-video-id="dQw4w9WgXcQ" data-creator-name="겜돌이" data-summary="고전 명작 '젤다의 전설'을 현대적으로 재해석하여 플레이하는 영상입니다. 주요 공략 포인트와 숨겨진 이스터에그를 찾아내는 과정이 담겨있습니다.">AI 하이라이트 보기</button>
+                                </div>
+                            </div>
+                            <div class="p-5 flex flex-col h-[230px]">
+                                <div class="flex items-center mb-3"><img src="https://placehold.co/48x48/F59E0B/000000?text=겜" alt="Creator Avatar" class="w-12 h-12 rounded-full border-2 border-amber-500"><div class="ml-4"><h3 class="text-xl font-bold">겜돌이</h3><p class="text-sm text-slate-400 flex items-center"><span class="live-dot h-2 w-2 bg-green-400 rounded-full mr-1.5"></span>LIVE</p></div></div>
+                                <p class="text-slate-300 mb-4 text-sm flex-grow">고전 명작부터 최신 인디게임까지, 게임의 모든 것을 탐험합니다.</p>
+                                <div class="flex flex-wrap gap-2 mb-4"><span class="bg-gray-800 text-xs font-semibold px-2 py-1 rounded-full">#게임</span><span class="bg-gray-800 text-xs font-semibold px-2 py-1 rounded-full">#소통</span></div>
+                                <button class="w-full bg-amber-500 text-black font-bold py-2 rounded-lg hover:bg-amber-400 transition-colors">후원하기</button>
+                            </div>
+                        </div>
+                        <!-- Creator Card with Highlight 2 -->
+                        <div class="creator-card bg-gray-900 rounded-2xl overflow-hidden reveal" data-category="novel">
+                            <div class="relative group">
+                                <img src="https://placehold.co/600x400/4C1D95/FFFFFF?text=소설+표지" alt="Creator Thumbnail" class="w-full h-40 object-cover">
+                                <div class="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                     <button class="ai-highlight-btn text-white font-bold py-2 px-4 rounded-full border-2 border-amber-400 bg-amber-500/20 backdrop-blur-sm hover:bg-amber-500/40" data-video-id="3S-3swY2i_o" data-creator-name="소설가 윤슬" data-summary="주인공 '카이'가 잃어버린 기억을 찾아 떠나는 여정의 프롤로그입니다. 신비로운 세계관과 앞으로의 전개에 대한 복선이 담겨 있습니다.">AI 하이라이트 보기</button>
+                                </div>
+                            </div>
+                            <div class="p-5 flex flex-col h-[230px]">
+                                <div class="flex items-center mb-3"><img src="https://placehold.co/48x48/A78BFA/000000?text=윤" alt="Creator Avatar" class="w-12 h-12 rounded-full border-2 border-amber-500"><div class="ml-4"><h3 class="text-xl font-bold">소설가 윤슬</h3><p class="text-sm text-slate-400">연재 중</p></div></div>
+                                <p class="text-slate-300 mb-4 text-sm flex-grow">당신의 마음을 울릴 감성 판타지, '별의 눈물'을 연재합니다.</p>
+                                <div class="flex flex-wrap gap-2 mb-4"><span class="bg-gray-800 text-xs font-semibold px-2 py-1 rounded-full">#웹소설</span><span class="bg-gray-800 text-xs font-semibold px-2 py-1 rounded-full">#판타지</span></div>
+                                <button class="w-full bg-amber-500 text-black font-bold py-2 rounded-lg hover:bg-amber-400 transition-colors">후원하기</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- New Creators Section -->
+                <section class="mb-16">
+                    <h2 class="text-3xl font-bold mb-6 reveal">✨ 새로 합류한 크리에이터</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="creator-card bg-gray-900 rounded-2xl overflow-hidden reveal" data-category="vtuber music">
+                             <img src="https://placehold.co/600x400/334155/FFFFFF?text=방송+준비중" alt="Creator Thumbnail" class="w-full h-40 object-cover">
+                            <div class="p-5 flex flex-col h-[230px]">
+                                <div class="flex items-center mb-3"><img src="https://placehold.co/48x48/8B5CF6/FFFFFF?text=아" alt="Creator Avatar" class="w-12 h-12 rounded-full"><div class="ml-4"><h3 class="text-xl font-bold">버튜버 아리아</h3><p class="text-sm text-amber-400 font-semibold">곧 데뷔!</p></div></div>
+                                <p class="text-slate-300 mb-4 text-sm flex-grow">노래와 이야기로 당신의 밤을 포근하게 만들어 줄게요.</p>
+                                <div class="flex flex-wrap gap-2 mb-4"><span class="bg-gray-800 text-xs font-semibold px-2 py-1 rounded-full">#버튜버</span><span class="bg-gray-800 text-xs font-semibold px-2 py-1 rounded-full">#음악</span></div>
+                                <button class="w-full bg-gray-700 text-white font-bold py-2 rounded-lg hover:bg-gray-600 transition-colors">첫 후원하기</button>
+                            </div>
+                        </div>
+                        <div class="creator-card bg-gray-900 rounded-2xl overflow-hidden reveal" data-category="music talk">
+                             <img src="https://placehold.co/600x400/BE123C/FFFFFF?text=DJ+MIX" alt="Creator Thumbnail" class="w-full h-40 object-cover">
+                            <div class="p-5 flex flex-col h-[230px]">
+                                <div class="flex items-center mb-3"><img src="https://placehold.co/48x48/F472B6/000000?text=M" alt="Creator Avatar" class="w-12 h-12 rounded-full"><div class="ml-4"><h3 class="text-xl font-bold">DJ MixMaster</h3><p class="text-sm text-amber-400 font-semibold">첫 방송 D-3</p></div></div>
+                                <p class="text-slate-300 mb-4 text-sm flex-grow">주말 밤을 책임질 비트! 여러분의 사연과 신청곡으로 믹싱합니다.</p>
+                                <div class="flex flex-wrap gap-2 mb-4"><span class="bg-gray-800 text-xs font-semibold px-2 py-1 rounded-full">#DJ</span><span class="bg-gray-800 text-xs font-semibold px-2 py-1 rounded-full">#라디오</span></div>
+                                <button class="w-full bg-gray-700 text-white font-bold py-2 rounded-lg hover:bg-gray-600 transition-colors">첫 후원하기</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- All Creators Section -->
+                <section>
+                    <h2 class="text-3xl font-bold mb-6 reveal">모든 크리에이터</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                         <div class="creator-card bg-gray-900 rounded-2xl overflow-hidden reveal" data-category="talk">
+                            <img src="https://placehold.co/600x400/0891B2/FFFFFF?text=ASMR" alt="Creator Thumbnail" class="w-full h-40 object-cover">
+                            <div class="p-5 flex flex-col h-[230px]">
+                                <div class="flex items-center mb-3"><img src="https://placehold.co/48x48/67E8F9/000000?text=솜" alt="Creator Avatar" class="w-12 h-12 rounded-full"><div class="ml-4"><h3 class="text-xl font-bold">솜사탕 ASMR</h3><p class="text-sm text-slate-400 flex items-center"><span class="live-dot h-2 w-2 bg-green-400 rounded-full mr-1.5"></span>LIVE</p></div></div>
+                                <p class="text-slate-300 mb-4 text-sm flex-grow">듣기만 해도 마음이 편안해지는 소리를 선물합니다.</p>
+                                <div class="flex flex-wrap gap-2 mb-4"><span class="bg-gray-800 text-xs font-semibold px-2 py-1 rounded-full">#ASMR</span><span class="bg-gray-800 text-xs font-semibold px-2 py-1 rounded-full">#힐링</span></div>
+                                <button class="w-full bg-amber-500 text-black font-bold py-2 rounded-lg hover:bg-amber-400 transition-colors">후원하기</button>
+                            </div>
+                        </div>
+                        <div class="creator-card bg-gray-900 rounded-2xl overflow-hidden reveal" data-category="novel">
+                            <img src="https://placehold.co/600x400/047857/FFFFFF?text=웹툰+컷" alt="Creator Thumbnail" class="w-full h-40 object-cover">
+                            <div class="p-5 flex flex-col h-[230px]">
+                                <div class="flex items-center mb-3"><img src="https://placehold.co/48x48/34D399/000000?text=R" alt="Creator Avatar" class="w-12 h-12 rounded-full"><div class="ml-4"><h3 class="text-xl font-bold">웹툰작가 리코</h3><p class="text-sm text-slate-400">매주 월요일 연재</p></div></div>
+                                <p class="text-slate-300 mb-4 text-sm flex-grow">따뜻한 색감으로 동화같은 순간을 그립니다.</p>
+                                <div class="flex flex-wrap gap-2 mb-4"><span class="bg-gray-800 text-xs font-semibold px-2 py-1 rounded-full">#웹툰</span><span class="bg-gray-800 text-xs font-semibold px-2 py-1 rounded-full">#일상툰</span></div>
+                                <button class="w-full bg-gray-700 text-white font-bold py-2 rounded-lg hover:bg-gray-600 transition-colors">후원하기</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Sidebar: Live Feed -->
+            <aside class="w-full lg:w-1/4">
+                <div class="sticky top-28">
+                    <h3 class="text-2xl font-bold mb-4 reveal">실시간 후원 현황</h3>
+                    <div id="live-feed" class="space-y-3 reveal" style="transition-delay: 0.2s;"></div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- AI Highlight Modal -->
+    <div id="highlight-modal" class="modal-overlay fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 hidden opacity-0">
+        <div class="modal-container bg-gray-900 w-full max-w-4xl rounded-2xl overflow-hidden transform scale-95 opacity-0">
+            <div class="relative" style="padding-top: 56.25%;"><iframe id="video-iframe" class="absolute top-0 left-0 w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+            <div class="p-8"><h3 id="modal-creator-name" class="text-3xl font-bold mb-4"></h3><h4 class="text-xl font-bold mb-3 gradient-text">AI가 요약한 30초 하이라이트</h4><p id="modal-summary" class="text-slate-300 leading-relaxed"></p></div>
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-white bg-black/50 rounded-full p-2 hover:bg-black/80"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 스크롤 애니메이션
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                revealElements.forEach(el => {
+                    const elementTop = el.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - 50) {
+                        el.classList.add('active');
+                    }
+                });
+            };
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+
+            // 실시간 피드
+            const liveFeedContainer = document.getElementById('live-feed');
+            const creators = ['겜돌이', '버튜버 아리아', '소설가 윤슬', '웹툰작가 리코', 'DJ MixMaster', '솜사탕 ASMR'];
+            const payments = ['<span class="font-bold text-sky-400">컬쳐캐쉬 5,000원</span>', '<span class="font-bold text-teal-400">틴캐시 10,000원</span>', '<span class="font-bold text-lime-400">웰컴페이 3,000P</span>', '<span class="font-bold text-rose-400">티머니 5,000원</span>'];
+            const addFeedItem = () => {
+                const creator = creators[Math.floor(Math.random() * creators.length)];
+                const payment = payments[Math.floor(Math.random() * payments.length)];
+                const feedItem = document.createElement('div');
+                feedItem.className = 'live-feed-item bg-gray-900 p-3 rounded-lg text-sm';
+                feedItem.innerHTML = `<p><span class="font-bold text-amber-400">${creator}</span> 님에게<br>${payment} 후원!</p>`;
+                liveFeedContainer.prepend(feedItem);
+                if (liveFeedContainer.children.length > 7) liveFeedContainer.lastChild.remove();
+            };
+            setInterval(addFeedItem, 2500);
+            for(let i=0; i<5; i++) { addFeedItem(); }
+
+            // AI 하이라이트 모달
+            const modal = document.getElementById('highlight-modal');
+            const modalContainer = modal.querySelector('.modal-container');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const videoIframe = document.getElementById('video-iframe');
+            const modalCreatorName = document.getElementById('modal-creator-name');
+            const modalSummary = document.getElementById('modal-summary');
+
+            document.querySelectorAll('.ai-highlight-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    videoIframe.src = `https://www.youtube.com/embed/${btn.dataset.videoId}?autoplay=1&mute=1`;
+                    modalCreatorName.textContent = `${btn.dataset.creatorName}님의 하이라이트 영상`;
+                    modalSummary.textContent = btn.dataset.summary;
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0');
+                        modalContainer.classList.remove('scale-95', 'opacity-0');
+                    }, 10);
+                });
+            });
+
+            const closeModal = () => {
+                videoIframe.src = "";
+                modalContainer.classList.add('scale-95', 'opacity-0');
+                modal.classList.add('opacity-0');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            };
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+            // 카테고리 필터링
+            const filterContainer = document.getElementById('category-filter');
+            const creatorCards = document.querySelectorAll('.creator-card');
+            filterContainer.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'BUTTON') return;
+                
+                const filter = e.target.dataset.filter;
+                
+                // 버튼 활성화 상태 변경
+                filterContainer.querySelector('.active').classList.remove('active');
+                e.target.classList.add('active');
+
+                // 카드 필터링
+                creatorCards.forEach(card => {
+                    const categories = card.dataset.category.split(' ');
+                    if (filter === 'all' || categories.includes(filter)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

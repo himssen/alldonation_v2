@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기프트 샵 - 올도네이션</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+    <style>
+        /* Flexbox 기반의 스크롤 방지 레이아웃 */
+        html, body {
+            height: 100%;
+            overflow: hidden; /* 페이지 전체 스크롤 원천 방지 */
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e2e8f0;
+        }
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        header {
+            flex-shrink: 0; /* 헤더 높이 고정 */
+        }
+        main {
+            flex-grow: 1; /* 메인 영역이 남은 공간 모두 차지 */
+            overflow: hidden; /* 메인 영역 자체의 스크롤 방지 */
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #f59e0b, #facc15, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-black text-slate-200">
+
+<div class="page-wrapper">
+    <!-- Header -->
+    <header class="w-full bg-black/70 backdrop-blur-sm z-50 border-b border-gray-900">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold gradient-text">AllDonation</a>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="creators.html" class="text-slate-300 hover:text-amber-400">크리에이터 찾기</a>
+                <a href="events.html" class="text-slate-300 hover:text-amber-400">이벤트</a>
+                <a href="guide.html" class="text-slate-300 hover:text-amber-400">가이드</a>
+                <a href="shop.html" class="text-amber-400 font-bold">기프트 샵</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-slate-300 hover:text-amber-400 transition-colors">로그인</a>
+                <a href="#" class="bg-amber-500 text-black font-bold py-2 px-4 rounded-full hover:bg-amber-400 transition-all duration-300 transform hover:scale-105">
+                    크리에이터 등록
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-4 md:p-8">
+        <div class="w-full h-full bg-gray-900 rounded-2xl shadow-2xl shadow-black/30 flex flex-col md:flex-row overflow-hidden">
+            <!-- Left Panel: Promotion & Guide (Flexible width) -->
+            <div class="flex-grow p-8 lg:p-12 flex flex-col justify-center items-center text-center overflow-y-auto">
+                <div class="max-w-md">
+                    <div class="reveal">
+                        <h1 class="text-4xl lg:text-5xl font-black mb-4 leading-tight">
+                            마음을 선물하는<br>
+                            <span class="gradient-text">가장 특별한 방법</span>
+                        </h1>
+                        <p class="text-lg text-slate-400 mb-10">
+                            좋아하는 크리에이터에게 커피 한 잔, 치킨 한 마리의 따뜻한 응원을 선물하세요. 당신의 선물이 창작의 큰 힘이 됩니다.
+                        </p>
+                    </div>
+
+                    <div class="reveal" style="transition-delay: 0.2s;">
+                        <div class="bg-gradient-to-r from-amber-500 to-yellow-400 p-6 rounded-2xl text-black mb-8">
+                            <h2 class="text-2xl font-black">룰렛 이벤트 진행 중!</h2>
+                            <p class="font-medium mt-1">샵에서 1,000원 이상 선물하고 행운의 룰렛 이용권을 받으세요!</p>
+                            <a href="events.html" class="bg-black text-white font-bold py-2 px-4 rounded-full hover:bg-gray-800 transition-colors mt-4 inline-block">이벤트 보러가기 →</a>
+                        </div>
+                    </div>
+
+                    <div class="reveal" style="transition-delay: 0.4s;">
+                         <h3 class="text-xl font-bold mb-4">간편 선물 가이드</h3>
+                         <div class="space-y-3 text-slate-300">
+                             <p>1. 오른쪽 샵에서 원하는 상품을 고르세요.</p>
+                             <p>2. 선물할 크리에이터를 선택하세요.</p>
+                             <p>3. 응원 메시지와 함께 마음을 전하면 끝!</p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: iFrame for existing shop (Fixed width with bezel) -->
+            <div class="w-full md:w-[480px] flex-shrink-0 bg-gray-800 p-2">
+                <iframe 
+                    id="shop-iframe"
+                    src="https://service.alldonation.co.kr/shop" 
+                    class="w-full h-full border-0 rounded-lg" 
+                    title="올도네이션 기프트 샵"
+                    sandbox="allow-scripts allow-forms allow-same-origin allow-popups">
+                </iframe>
+            </div>
+        </div>
+    </main>
+</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 스크롤 애니메이션 (왼쪽 패널에만 적용)
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                revealElements.forEach(el => {
+                    // 왼쪽 패널은 스크롤과 무관하게 바로 보이도록 처리
+                    el.classList.add('active');
+                });
+            };
+            revealOnScroll();
+
+            // iFrame 링크 제어 (이전과 동일, CORS 정책에 따라 제한될 수 있음)
+            const shopIframe = document.getElementById('shop-iframe');
+            
+            window.addEventListener('message', function(event) {
+                if (event.data && event.data.type === 'navigate') {
+                    shopIframe.src = event.data.url;
+                }
+            });
+
+            shopIframe.addEventListener('load', () => {
+                try {
+                    const iframeDocument = shopIframe.contentDocument || shopIframe.contentWindow.document;
+                    iframeDocument.body.addEventListener('click', function(e) {
+                        let target = e.target;
+                        while (target && target.tagName !== 'A') {
+                            target = target.parentElement;
+                        }
+
+                        if (target && target.href) {
+                            e.preventDefault();
+                            window.parent.postMessage({
+                                type: 'navigate',
+                                url: target.href
+                            }, '*');
+                        }
+                    }, true);
+                } catch (error) {
+                    console.warn("Could not access iFrame content. Navigation control might be limited.", error);
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
